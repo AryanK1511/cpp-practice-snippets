@@ -23,7 +23,7 @@ int main() {
 
     // ==================== MANIPULATORS ====================
 
-    // SORT
+    // => SORT
     sort(gems.begin(), gems.end(), [](const Gem& gem1, const Gem& gem2) {
         return gem1.shine < gem2.shine;
     });

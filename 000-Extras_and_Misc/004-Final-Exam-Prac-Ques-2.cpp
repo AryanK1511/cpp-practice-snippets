@@ -1,44 +1,4 @@
-/*
- Given the following code snippet, complete the tasks listed below:
-
-1. #include <iostream>
-2. #include <string>
-3. #include <algorithm>
-4. #include <numeric>
-5. #include <vector>
-6. using namespace std;
-7.  
-8. struct ComputerParts {
-9.   string partType;
-10.   string model;
-11.   double price;
-12.   double powerConsumption;
-13.   bool used;
-14. };
-15.  
-16. int main() {
-17.  
-18.   vector<ComputerParts> wishList;
-19.  
-20. } 
-Task 1. Add to the wishLish some number of desired Computer Parts 
-Eg. GPU, RTX 3080, 1000, 300, false
-
-Task 2. Sort the wishList by price in ascending order
-
-Task 3. Print to the screen the part in the wishList the part that has the most and least powerConsumption
-
-Task 4. Remove from the wishList all the parts that are 'used'
-
-Task 5. Find the average cost of all the parts in the wishList
-
-Task 6. Change all the items in the wishList to 'used' and reduce their price by 20% and save this result to a new vector
-
-Task 7. Figure out how many of a given part type is in the wishList eg. how many CPUs and print to the screen
-
-Task 8. Create new wishList of computer parts and add parts to it. Combine it with the original wishList
-*/
-
+// Algorithms Revision
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -46,106 +6,151 @@ Task 8. Create new wishList of computer parts and add parts to it. Combine it wi
 #include <vector>
 using namespace std;
 
-struct ComputerParts {
-    string partType;
+struct Car {
     string model;
+    string color;
     double price;
-    double powerConsumption;
+    double horsePower;
     bool used;
+    void display() {
+        cout << model << " | " << color << " | " << price << " | " << horsePower << " | " << used << endl;
+    }
 };
 
 int main() {
-    vector<ComputerParts> wishList;
+    // => Create a showroom of cars
+    vector<Car> showroom;
 
-    auto display = [&wishList]() {
-        for (auto& x: wishList) {
-            cout << x.model << " | " << x.partType << endl;
-            cout << x.price << " | " << x.powerConsumption << " | " << x.used << endl;
-        }
-    };
+    // Q1. Add some cars to the showroom
+    cout << "========== QUESTION 1 ==========" << endl;
 
-    // Task 1
-    wishList.push_back(ComputerParts{ "CPU", "AMD 7950X3D", 800, 200, false});
-    wishList.push_back(ComputerParts{ "GPU", "NVIDIA 3070", 500, 250, false});
-    wishList.push_back(ComputerParts{ "RAM", "Ripjaws 32GB", 120, 50, true});
-    wishList.push_back(ComputerParts{ "PSU", "Corsair SFX70", 200, 750, true});
-    wishList.push_back(ComputerParts{ "Motherboard", "ASRock", 150, 100, false});
+    showroom.push_back(Car{"Tesla", "Black", 100000, 3000, false});
+    showroom.push_back(Car{"BMW", "White", 75000, 4000, false});
+    showroom.push_back(Car{"Merc", "Red", 50000, 3500, true});
+    showroom.push_back(Car{"Honda", "Silver", 20000, 2000, true});
+    showroom.push_back(Car{"Toyota", "Matte Black", 45000, 2500, false});
 
-    // Task 2
-    std::sort(wishList.begin(), wishList.end(), [=](const ComputerParts& cp1, const ComputerParts& cp2) {
-        return cp1.price < cp2.price;
-    });
-
-    // Task 3
-    auto max_item = max_element(wishList.begin(), wishList.end(), [](const ComputerParts& cp1, const ComputerParts& cp2) {
-        return cp1.price < cp2.price;
-    });
-
-    auto min_item = min_element(wishList.begin(), wishList.end(), [](const ComputerParts& cp1, const ComputerParts& cp2) {
-        return cp1.price < cp2.price;
-    });
-
-    // Task 4
-    auto itr = remove_if(wishList.begin(), wishList.end(), [](const ComputerParts& c) {
-        return c.used;
-    });
-    wishList.resize(itr - wishList.begin());
-//    wishList.erase(itr, wishList.end());
-
-    // Task 5
-    double sum = accumulate(wishList.begin(), wishList.end(), 0.0, [](double& sum, const ComputerParts& c) {
-        return sum += c.price;
-    });
-    double average = sum / wishList.size();
-
-    // Task 6
-//    vector<ComputerParts> res;
-//    for_each(wishList.begin(), wishList.end(), [&res](ComputerParts& c) {
-//        if (!c.used) {
-//            c.used = true;
-//            c.price += 0.8;
-//            res.push_back(c);
-//        }
-//    });
-
-    vector<ComputerParts> res(wishList.size());
-    transform(wishList.begin(), wishList.end(), res.begin(), [](ComputerParts& c) {
-        if (!c.used) {
-            c.used = true;
-            c.price *= 0.8;
-        }
-        return c;
-    });
-
-    // Task 7
-    auto cnt = count_if(wishList.begin(), wishList.end(), [](const ComputerParts& c) {
-        return c.partType == "GPU";
-    });
-    cout << cnt << endl;
-
-    // Task 8
-    vector<ComputerParts> wl2;
-
-    wl2.push_back(ComputerParts{ "CPU", "AMD 7950X3D", 800, 200, false});
-    wl2.push_back(ComputerParts{ "GPU", "NVIDIA 3070", 500, 250, false});
-    wl2.push_back(ComputerParts{ "RAM", "Ripjaws 32GB", 120, 50, true});
-    wl2.push_back(ComputerParts{ "PSU", "Corsair SFX70", 200, 750, true});
-    wl2.push_back(ComputerParts{ "Motherboard", "ASRock", 150, 100, false});
-
-    std::sort(wishList.begin(), wishList.end(), [=](const ComputerParts& cp1, const ComputerParts& cp2) {
-        return cp1.price < cp2.price;
-    });
-
-    std::sort(wl2.begin(), wl2.end(), [=](const ComputerParts& cp1, const ComputerParts& cp2) {
-        return cp1.price < cp2.price;
-    });
-
-    vector<ComputerParts> mergedList(wishList.size() + wl2.size());
-    merge(wishList.begin(), wishList.end(), wl2.begin(), wl2.end(), mergedList.begin(), [](const ComputerParts& c1, const ComputerParts& c2) {
-        return c1.price < c2.price;
-    });
-
-    for (auto& x: mergedList) {
-        cout << x.partType << " " << x.price << endl;
+    for (auto& car: showroom) {
+        car.display();
     }
+    cout << "******************************\n" << endl;
+
+    // Q2. Sort the cars in the showroom by price in ascending order
+    cout << "========== QUESTION 2 ==========" << endl;
+    sort(showroom.begin(), showroom.end(), [](const Car& car1, const Car& car2) {
+        return car1.price < car2.price;
+    });
+
+    for (auto& car: showroom) {
+        car.display();
+    }
+    cout << "******************************\n" << endl;
+
+    // Q3. Print the car which has the least and the most horsepower
+    cout << "========== QUESTION 3 ==========" << endl;
+
+    auto leastHPCar = min_element(showroom.begin(), showroom.end(), [](const Car& car1, const Car& car2) {
+        return car1.horsePower < car2.horsePower;
+    });
+
+    auto mostHPCar = min_element(showroom.begin(), showroom.end(), [](const Car& car1, const Car& car2) {
+        return car1.horsePower > car2.horsePower;
+    });
+
+    cout << "CAR with most HP: ";
+    mostHPCar->display();
+    cout << "CAR with least HP: ";
+    leastHPCar->display();
+
+    cout << "******************************\n" << endl;
+
+    // Q4. Remove from the showroom all the cars that are used
+    cout << "========== QUESTION 4 ==========" << endl;
+    auto itr = remove_if(showroom.begin(), showroom.end(), [](const Car& car) {
+        return car.used;
+    });
+    showroom.resize(itr - showroom.begin());
+    for (auto& car: showroom) {
+        car.display();
+    }
+    cout << "+++++++++" << endl;
+
+    // Remove all cars from the showroom and add them again
+    showroom.erase(showroom.begin(), showroom.end());
+    cout << "Removing all Cars" << endl;
+    for (auto& car: showroom) {
+        car.display();
+    }
+    cout << "+++++++++" << endl;
+
+    cout << "Adding all Cars again" << endl;
+    showroom.push_back(Car{"Tesla", "Black", 100000, 3000, false});
+    showroom.push_back(Car{"BMW", "White", 75000, 4000, false});
+    showroom.push_back(Car{"Merc", "Red", 50000, 3500, true});
+    showroom.push_back(Car{"Honda", "Silver", 20000, 2000, true});
+    showroom.push_back(Car{"Toyota", "Black", 45000, 2500, false});
+    for (auto& car: showroom) {
+        car.display();
+    }
+    cout << "+++++++++" << endl;
+    cout << "******************************\n" << endl;
+
+    // Q5. Find the average cost of all cars in the showroom
+    cout << "========== QUESTION 5 ==========" << endl;
+    double sumOfPrices = accumulate(showroom.begin(), showroom.end(), 0, [](int sum, const Car& car) {
+        return sum += car.price;
+    });
+    double avg = sumOfPrices / (double) showroom.size();
+    cout << "AVERAGE PRICE: " << avg << endl;
+    cout << "******************************\n" << endl;
+
+    // Q6. Changed all the items to used and reduce price by 20% and save this to a new vector
+    cout << "========== QUESTION 6 ==========" << endl;
+    vector<Car> usedShowroom;
+    transform(showroom.begin(), showroom.end(), back_inserter(usedShowroom), [](Car& car) {
+        if (!car.used) {
+            car.used = true;
+            car.price *= 0.8;
+        }
+        return car;
+    });
+    for (auto& car: usedShowroom) {
+        car.display();
+    }
+    cout << "******************************\n" << endl;
+
+    // Q7. Check how many cars are black in color
+    cout << "========== QUESTION 7 ==========" << endl;
+    int count = count_if(showroom.begin(), showroom.end(), [](const Car& car) {
+        return car.color == "Black";
+    });
+    cout << "COUNT OF BLACK CARS: " << count << endl;
+    cout << "******************************\n" << endl;
+
+    // Q8.
+    cout << "========== QUESTION 8 ==========" << endl;
+    vector<Car> showroom2;
+
+    showroom2.push_back(Car{"Car1", "Black", 100000, 3000, false});
+    showroom2.push_back(Car{"Car2", "White", 75000, 4000, false});
+    showroom2.push_back(Car{"Car3", "Red", 50000, 3500, true});
+    showroom2.push_back(Car{"Car4", "Silver", 20000, 2000, true});
+    showroom2.push_back(Car{"Car5", "Matte Black", 45000, 2500, false});
+
+    vector<Car> merged;
+    sort(showroom.begin(), showroom.end(), [](const Car& car1, const Car& car2) {
+        return car1.price < car2.price;
+    });
+    sort(showroom2.begin(), showroom2.end(), [](const Car& car1, const Car& car2) {
+        return car1.price < car2.price;
+    });
+    merge(showroom.begin(), showroom.end(), showroom2.begin(), showroom2.end(), back_inserter(merged), [](const Car& car1, const Car& car2) {
+        return car1.price < car2.price;
+    });
+    for (auto& car: merged) {
+        car.display();
+    }
+    cout << "******************************\n" << endl;
+
+    return 0;
 }
