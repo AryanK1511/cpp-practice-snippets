@@ -4,13 +4,6 @@
 #include <vector>
 using namespace std;
 
-struct Gem {
-    std::string name;
-    std::string colour;
-    int shine;
-    bool polished;
-};
-
 int main() {
     std::vector<int> nums;
     for (size_t i = 0; i < 10; i++) {
