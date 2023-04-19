@@ -1,0 +1,18 @@
+#include <iostream>
+
+void copyMem(void* vdes, const void* vsrc, size_t size) {
+    char* des = (char*) vdes;
+    char* src = (char*) vsrc;
+
+    for (size_t i = 0; i < size; i++) {
+        des[i] = src[i];
+    }
+}
+
+int main() {
+    double a = 1234.56789;
+    double b;
+    copyMem(&b, &a, sizeof(double));
+    std::cout << b << std::endl;
+    return 0;
+}
